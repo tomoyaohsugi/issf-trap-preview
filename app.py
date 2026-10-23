@@ -27,11 +27,11 @@ function launch(){
   document.getElementById('launchBtn').disabled=true;
   const pool=SETS[setNo].slice((station-1)*3,station*3),current=shot,[angle,height]=pool[current],base=(station-1)*3+1;
   const b=ballistics(height),inf=document.getElementById('info');
-  inf.textContent=`放出機 ${base+current}　${at(angle)}　高度 ${height.toFixed(2)}m　初速 ${b.speed.toFixed(1)}m/s　飛翔 ${b.flightTime.toFixed(2)}秒`;
+  inf.textContent=`放出機 ${base+current}　${at(angle)}　高度 ${height.toFixed(2)}m　初速 ${b.speed.toFixed(1)}m/s　飛翔 ${b.flightTime.toFixed(2)}秒　白発光 30m`;
   if(showInfo)inf.classList.remove('hidden');
   const q=bg(),w=q.w,h=q.h,start=performance.now(),dur=b.flightTime*1000,sx=w/2,sy=q.oy;
   const angleRatio=Math.sign(angle)*Math.pow(Math.abs(angle)/45,.72),ex=w/2+angleRatio*w*.70;
-  const flashDistance=32,flashDurationMs=110;
+  const flashDistance=30,flashDurationMs=140;
   let flashStartedAt=null;
   function f(now){
     const u=Math.min(1,(now-start)/dur);
@@ -46,9 +46,16 @@ function launch(){
     const groundY=sy-u*h*.28;
     const y=groundY-rise*h*.060;
     const sc=Math.max(.22,1-.72*u);
-    ctx.save();ctx.translate(x,y);ctx.scale(sc,sc*.34);
+    ctx.save();ctx.translate(x,y);
+    if(isFlashing){
+      // Strong white flash: halo + enlarged white target, then return to orange.
+      ctx.save();ctx.scale(sc,sc);ctx.shadowColor='#ffffff';ctx.shadowBlur=28;
+      const halo=ctx.createRadialGradient(0,0,3,0,0,34);halo.addColorStop(0,'rgba(255,255,255,1)');halo.addColorStop(.35,'rgba(255,255,255,.95)');halo.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=halo;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();ctx.restore();
+    }
+    ctx.scale(sc*(isFlashing?1.45:1),sc*.34*(isFlashing?1.45:1));
     ctx.fillStyle=isFlashing?'#ffffff':'#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=isFlashing?'#ffffff':'#ffe0bd';ctx.lineWidth=isFlashing?3:2;ctx.stroke();ctx.restore();
+    ctx.strokeStyle=isFlashing?'#ffffff':'#ffe0bd';ctx.lineWidth=isFlashing?5:2;ctx.stroke();ctx.restore();
     if(u<1)raf=requestAnimationFrame(f);
     else{
       if(current===2){shot=0;station=station===5?1:station+1}else shot=current+1;
