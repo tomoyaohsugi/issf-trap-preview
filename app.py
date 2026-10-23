@@ -31,11 +31,15 @@ function launch(){
   if(showInfo)inf.classList.remove('hidden');
   const q=bg(),w=q.w,h=q.h,start=performance.now(),dur=b.flightTime*1000,sx=w/2,sy=q.oy;
   const angleRatio=Math.sign(angle)*Math.pow(Math.abs(angle)/45,.72),ex=w/2+angleRatio*w*.70;
+  const flashDistance=32,flashDurationMs=110;
+  let flashStartedAt=null;
   function f(now){
     const u=Math.min(1,(now-start)/dur);
     bg();
     // Horizontal progress is linear in the no-drag model.
     const range=b.R*u;
+    if(flashStartedAt===null && range>=flashDistance) flashStartedAt=now;
+    const isFlashing=flashStartedAt!==null && (now-flashStartedAt)<flashDurationMs;
     const rise=range*b.tanTheta*(1-range/b.R);
     const x=sx+(ex-sx)*u;
     // Every target lands at the same 76m depth; only the arc and time vary.
@@ -43,8 +47,8 @@ function launch(){
     const y=groundY-rise*h*.060;
     const sc=Math.max(.22,1-.72*u);
     ctx.save();ctx.translate(x,y);ctx.scale(sc,sc*.34);
-    ctx.fillStyle='#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#ffe0bd';ctx.lineWidth=2;ctx.stroke();ctx.restore();
+    ctx.fillStyle=isFlashing?'#ffffff':'#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=isFlashing?'#ffffff':'#ffe0bd';ctx.lineWidth=isFlashing?3:2;ctx.stroke();ctx.restore();
     if(u<1)raf=requestAnimationFrame(f);
     else{
       if(current===2){shot=0;station=station===5?1:station+1}else shot=current+1;
