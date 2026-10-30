@@ -11,28 +11,30 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>ISSF Trap Preview</title>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0f1720;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.app{box-sizing:border-box;width:100vw;height:100dvh;padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));display:flex;flex-direction:column}
-.head{height:34px;display:flex;justify-content:space-between;align-items:center}.sub{font-size:10px;color:#aab7c4}.headBtns{display:flex;gap:4px}
-button{background:#24323c;color:#fff;border:1px solid #394955;border-radius:8px;padding:6px 7px;font-weight:800;touch-action:manipulation}.active{background:#ff681c;border-color:#ff984f}
-.stage{position:relative;flex:1;min-height:0;border-radius:12px;overflow:hidden;border:1px solid #33444f}.stage canvas{width:100%;height:100%;display:block}
-.info{position:absolute;left:8px;bottom:8px;background:#051014cc;padding:6px 8px;border-radius:8px;font-size:11px;pointer-events:none}.hidden{display:none}
-.launch{display:flex;justify-content:center;margin:4px 0}.launchBtn{width:min(58%,420px);background:#ff681c;border-color:#ff984f;font-size:16px;padding:7px}.launchBtn:disabled{opacity:.55}
-.controls{display:grid;grid-template-columns:1.05fr .75fr 1.3fr;gap:4px}.panel{background:#18242d;border:1px solid #263740;border-radius:9px;padding:5px}.row{display:flex;justify-content:space-between;font-size:11px;color:#c7d2da}
-.g10{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:4px}.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:4px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:4px}.g10 button,.g5 button{padding:4px}.card{background:#24323c;border:1px solid #394955;border-radius:7px;padding:4px;text-align:center;font-size:10px;line-height:1.35}.next{background:#101b22;border-radius:7px;padding:5px;margin-top:4px;text-align:center;font-size:11px;font-weight:800}
-.rotate{display:none}@media(orientation:portrait){.rotate{display:flex;position:fixed;inset:0;z-index:999;background:#0f1720;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:22px;font-weight:800}.app{visibility:hidden}}
+:root{--bg:#0f1720;--panel:#18242d;--line:#394955;--orange:#ff681c}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{width:100vw;height:100dvh;padding:max(3px,env(safe-area-inset-top)) max(5px,env(safe-area-inset-right)) max(3px,env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:3px}
+.head{height:32px;flex:0 0 32px;display:flex;justify-content:space-between;align-items:center}.title{font-size:14px;font-weight:900}.headBtns{display:flex;gap:3px}
+button,select{background:#24323c;color:#fff;border:1px solid var(--line);border-radius:7px;font-weight:800;touch-action:manipulation}.headBtns button{padding:5px 7px;font-size:11px}.active{background:var(--orange);border-color:#ff984f}
+.stage{position:relative;flex:1 1 auto;min-height:0;border-radius:10px;overflow:hidden;border:1px solid #33444f}.stage canvas{width:100%;height:100%;display:block}.info{position:absolute;left:7px;bottom:7px;background:#051014d9;padding:5px 7px;border-radius:7px;font-size:10px;pointer-events:none}.hidden{display:none}
+.launch{height:34px;flex:0 0 34px;display:flex;justify-content:center}.launchBtn{width:min(54%,420px);height:32px;background:var(--orange);border-color:#ff984f;font-size:15px}.launchBtn:disabled{opacity:.55}
+.bottom{height:36px;flex:0 0 36px;display:grid;grid-template-columns:150px 135px 60px 1fr;gap:4px;align-items:center;background:var(--panel);border:1px solid #263740;border-radius:8px;padding:3px 5px}
+select{width:100%;height:28px;padding:2px 25px 2px 7px;font-size:11px}.progress{display:flex;justify-content:center;gap:5px}.dot{width:8px;height:8px;border-radius:50%;background:#596873}.dot.on{background:var(--orange);box-shadow:0 0 6px #ff681c}.next{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:right;font-size:11px;font-weight:800;color:#dce7ed}
+.rotate{display:none}@media(orientation:portrait){.rotate{display:flex;position:fixed;inset:0;z-index:999;background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:30px;font-size:22px;font-weight:800}.app{visibility:hidden}}
+@media(max-width:700px) and (orientation:landscape){.bottom{grid-template-columns:125px 115px 50px 1fr}.title{font-size:12px}.headBtns button{font-size:10px;padding:4px 6px}.next{font-size:10px}}
 </style>
 </head>
 <body>
 <div class="rotate">iPhoneを横向きにしてください</div>
 <div class="app">
-  <div class="head"><div><b>ISSF Trap Preview</b><div class="sub">2026セット表 Ver.3 ・ Offline PWA</div></div><div class="headBtns"><button id="flashBtn">発光 ON</button><button id="infoBtn">情報 ON</button></div></div>
+  <div class="head"><div class="title">Trap Preview</div><div class="headBtns"><button id="gridBtn">GRID 薄</button><button id="flashBtn">発光 ON</button><button id="infoBtn">情報 ON</button></div></div>
   <div class="stage"><canvas id="cv"></canvas><div id="info" class="info hidden"></div></div>
   <div class="launch"><button id="launchBtn" class="launchBtn">TAP / 次へ</button></div>
-  <div class="controls">
-    <div class="panel"><div class="row"><b>セット</b><span id="setL"></span></div><div id="sets" class="g10"></div></div>
-    <div class="panel"><div class="row"><b>射台</b><span id="stL"></span></div><div id="sts" class="g5"></div></div>
-    <div class="panel"><div class="row"><b>自動進行</b><span>1→5</span></div><div id="cards" class="g3"></div><div id="next" class="next"></div></div>
+  <div class="bottom">
+    <select id="setSelect" aria-label="セット選択"></select>
+    <select id="stationSelect" aria-label="射台選択"></select>
+    <div id="progress" class="progress"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div id="next" class="next"></div>
   </div>
 </div>
 <script>
@@ -47,60 +49,20 @@ const SETS={
 8:[[40,3],[-5,3],[-15,2.2],[30,2],[-5,2],[-35,1.8],[40,2],[5,1.5],[-35,2.5],[45,1.5],[5,2],[-25,3],[15,1.5],[0,1.5],[-45,1.6]],
 9:[[30,1.6],[0,1.5],[-15,2],[20,2.4],[-5,3],[-35,2],[45,2],[-5,1.5],[-35,1.5],[45,1.6],[0,2.8],[-45,2],[25,3],[5,1.5],[-20,3]],
 10:[[45,2.25],[0,1.75],[-25,2],[35,1.8],[0,3],[-40,2.25],[40,3],[5,1.8],[-45,3],[45,2],[-10,2.5],[-35,1.5],[15,1.8],[10,2],[-45,1.5]]};
-let setNo=1,station=1,shot=0,flying=false,showInfo=true,flashEnabled=true,raf=null,dpr=1;
-const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-const setL=document.getElementById('setL'),stL=document.getElementById('stL'),setsEl=document.getElementById('sets'),stsEl=document.getElementById('sts'),cards=document.getElementById('cards'),next=document.getElementById('next'),info=document.getElementById('info'),launchBtn=document.getElementById('launchBtn'),flashBtn=document.getElementById('flashBtn'),infoBtn=document.getElementById('infoBtn');
+let setNo=1,station=1,shot=0,flying=false,showInfo=true,flashEnabled=true,gridMode=1,raf=null,dpr=1;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),setSelect=document.getElementById('setSelect'),stationSelect=document.getElementById('stationSelect'),progress=document.getElementById('progress'),nextEl=document.getElementById('next'),info=document.getElementById('info'),launchBtn=document.getElementById('launchBtn'),flashBtn=document.getElementById('flashBtn'),infoBtn=document.getElementById('infoBtn'),gridBtn=document.getElementById('gridBtn');
 const at=a=>a>0?`右${a}°`:a<0?`左${Math.abs(a)}°`:'直進';
-function resize(){
-  cancelAnimationFrame(raf); raf=null; flying=false; launchBtn.disabled=false;
-  const r=cv.getBoundingClientRect(); dpr=window.devicePixelRatio||1;
-  cv.width=Math.max(1,Math.round(r.width*dpr)); cv.height=Math.max(1,Math.round(r.height*dpr));
-  ctx.setTransform(dpr,0,0,dpr,0,0); draw();
-}
-function clearCanvas(){
-  ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height); ctx.restore();
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-}
-function bg(){
-  clearCanvas();
-  const w=cv.clientWidth,h=cv.clientHeight,hz=h*.46;
-  let sky=ctx.createLinearGradient(0,0,0,hz); sky.addColorStop(0,'#71bae8'); sky.addColorStop(1,'#dceff8'); ctx.fillStyle=sky; ctx.fillRect(0,0,w,hz);
-  let g=ctx.createLinearGradient(0,hz,0,h); g.addColorStop(0,'#789e50'); g.addColorStop(1,'#345a2c'); ctx.fillStyle=g; ctx.fillRect(0,hz,w,h-hz);
-  const eyeHeight=1.77,viewerDistance=15,openingDepth=2,depression=Math.atan2(eyeHeight,viewerDistance),farScale=viewerDistance/(viewerDistance+openingDepth),houseW=w*.48,houseH=Math.max(24,h*.075),hx=(w-houseW)/2,hy=h*.70,nearW=houseW*.76,farW=nearW*farScale,nearX=(w-nearW)/2,farX=(w-farW)/2,depthPx=Math.max(12,Math.min(28,h*(openingDepth/viewerDistance)*(1.15+Math.sin(depression)*2.5))),nearY=hy,farY=hy-depthPx;
-  ctx.fillStyle='#4b5961'; ctx.fillRect(hx,hy,houseW,houseH); ctx.strokeStyle='#26343b'; ctx.lineWidth=2; ctx.strokeRect(hx,hy,houseW,houseH);
-  ctx.fillStyle='#11181c'; ctx.beginPath(); ctx.moveTo(nearX,nearY); ctx.lineTo(nearX+nearW,nearY); ctx.lineTo(farX+farW,farY); ctx.lineTo(farX,farY); ctx.closePath(); ctx.fill(); ctx.strokeStyle='#91a1aa'; ctx.lineWidth=1.5; ctx.stroke();
-  return {w,h,oy:(nearY+farY)/2};
-}
-function draw(){ if(flying)return; const q=bg(),base=(station-1)*3+1; ctx.fillStyle='#0007';ctx.fillRect(0,0,q.w,34);ctx.fillStyle='white';ctx.font='600 12px system-ui';ctx.textAlign='center';ctx.fillText(`${setNo}番セット・${station}番射台・次 放出機${base+shot}`,q.w/2,22); }
-function ui(){
-  setL.textContent=setNo+'番';stL.textContent=station+'番';document.querySelectorAll('#sets button').forEach((b,i)=>b.className=i+1===setNo?'active':'');document.querySelectorAll('#sts button').forEach((b,i)=>b.className=i+1===station?'active':'');
-  const pool=SETS[setNo].slice((station-1)*3,station*3),base=(station-1)*3+1;cards.innerHTML='';pool.forEach(([a,h],i)=>{let d=document.createElement('div');d.className='card '+(i===shot?'active':'');d.innerHTML=`<b>${base+i}</b><br>${at(a)}<br>${h.toFixed(2)}m`;cards.appendChild(d)});const[a,h]=pool[shot];next.textContent=`次 ${base+shot}・${at(a)}・${h.toFixed(2)}m`;draw();
-}
+function resize(){cancelAnimationFrame(raf);raf=null;flying=false;launchBtn.disabled=false;const r=cv.getBoundingClientRect();dpr=window.devicePixelRatio||1;cv.width=Math.max(1,Math.round(r.width*dpr));cv.height=Math.max(1,Math.round(r.height*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);draw()}
+function clearCanvas(){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.restore();ctx.setTransform(dpr,0,0,dpr,0,0)}
+function drawGrid(w,h,horizon,launchY){if(gridMode===0)return;const alpha=gridMode===1?.12:.24,major=gridMode===1?.22:.36;ctx.save();ctx.lineWidth=1;ctx.strokeStyle=`rgba(255,255,255,${alpha})`;for(const x of [w*.125,w*.25,w*.375,w*.625,w*.75,w*.875]){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,launchY);ctx.stroke()}for(const y of [h*.18,h*.30,h*.42,h*.54]){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}ctx.strokeStyle=`rgba(255,255,255,${major})`;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(w*.5,0);ctx.lineTo(w*.5,launchY);ctx.stroke();ctx.beginPath();ctx.moveTo(0,horizon);ctx.lineTo(w,horizon);ctx.stroke();ctx.restore()}
+function bg(){clearCanvas();const w=cv.clientWidth,h=cv.clientHeight,hz=h*.46;let sky=ctx.createLinearGradient(0,0,0,hz);sky.addColorStop(0,'#71bae8');sky.addColorStop(1,'#dceff8');ctx.fillStyle=sky;ctx.fillRect(0,0,w,hz);let g=ctx.createLinearGradient(0,hz,0,h);g.addColorStop(0,'#789e50');g.addColorStop(1,'#345a2c');ctx.fillStyle=g;ctx.fillRect(0,hz,w,h-hz);const eyeHeight=1.77,viewerDistance=15,openingDepth=2,depression=Math.atan2(eyeHeight,viewerDistance),farScale=viewerDistance/(viewerDistance+openingDepth),houseW=w*.48,houseH=Math.max(24,h*.075),hx=(w-houseW)/2,hy=h*.70,nearW=houseW*.76,farW=nearW*farScale,nearX=(w-nearW)/2,farX=(w-farW)/2,depthPx=Math.max(12,Math.min(28,h*(openingDepth/viewerDistance)*(1.15+Math.sin(depression)*2.5))),nearY=hy,farY=hy-depthPx,launchY=(nearY+farY)/2;drawGrid(w,h,hz,launchY);ctx.fillStyle='#4b5961';ctx.fillRect(hx,hy,houseW,houseH);ctx.strokeStyle='#26343b';ctx.lineWidth=2;ctx.strokeRect(hx,hy,houseW,houseH);ctx.fillStyle='#11181c';ctx.beginPath();ctx.moveTo(nearX,nearY);ctx.lineTo(nearX+nearW,nearY);ctx.lineTo(farX+farW,farY);ctx.lineTo(farX,farY);ctx.closePath();ctx.fill();ctx.strokeStyle='#91a1aa';ctx.lineWidth=1.5;ctx.stroke();return{w,h,oy:launchY}}
+function draw(){if(flying)return;const q=bg(),base=(station-1)*3+1;ctx.fillStyle='#0006';ctx.fillRect(0,0,q.w,28);ctx.fillStyle='#fff';ctx.font='600 11px system-ui';ctx.textAlign='center';ctx.fillText(`${setNo}番セット・${station}番射台・次 放出機${base+shot}`,q.w/2,18)}
+function updateUI(){setSelect.value=String(setNo);stationSelect.value=String(station);[...progress.children].forEach((d,i)=>d.classList.toggle('on',i===shot));const pool=SETS[setNo].slice((station-1)*3,station*3),base=(station-1)*3+1,[a,h]=pool[shot];nextEl.textContent=`次 ${base+shot}・${at(a)}・${h.toFixed(2)}m`;draw()}
 function ballistics(height){const g=9.80665,R=76,x10=10,tanTheta=height/(x10*(1-x10/R)),theta=Math.atan(tanTheta),speed=Math.sqrt(g*R/Math.sin(2*theta)),flightTime=Math.sqrt(2*R*tanTheta/g);return{R,tanTheta,speed,flightTime}}
-function launch(){
-  if(flying)return; flying=true; launchBtn.disabled=true;
-  const pool=SETS[setNo].slice((station-1)*3,station*3),current=shot,[angle,height]=pool[current],base=(station-1)*3+1,b=ballistics(height);
-  info.textContent=`放出機 ${base+current}　${at(angle)}　高度 ${height.toFixed(2)}m　初速 ${b.speed.toFixed(1)}m/s　発光 ${flashEnabled?'ON':'OFF'}`; if(showInfo)info.classList.remove('hidden');
-  const q=bg(),w=q.w,h=q.h,start=performance.now(),dur=b.flightTime*1000,sx=w/2,sy=q.oy,ar=Math.sign(angle)*Math.pow(Math.abs(angle)/45,.72),ex=w/2+ar*w*.70,flashDistance=30,flashDurationMs=140;let flashStartedAt=null;
-  function frame(now){
-    const u=Math.min(1,(now-start)/dur),range=b.R*u;if(flashStartedAt===null&&range>=flashDistance)flashStartedAt=now;const isFlashing=flashEnabled&&flashStartedAt!==null&&(now-flashStartedAt)<flashDurationMs;
-    bg();
-    const rise=range*b.tanTheta*(1-range/b.R),x=sx+(ex-sx)*u,groundY=sy-u*h*.28,y=groundY-rise*h*.060,sc=Math.max(.22,1-.72*u);
-    ctx.save();ctx.translate(x,y);
-    if(isFlashing){ctx.save();ctx.scale(sc,sc);ctx.shadowColor='#fff';ctx.shadowBlur=28;let halo=ctx.createRadialGradient(0,0,3,0,0,34);halo.addColorStop(0,'rgba(255,255,255,1)');halo.addColorStop(.35,'rgba(255,255,255,.95)');halo.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();ctx.restore()}
-    ctx.scale(sc*(isFlashing?1.45:1),sc*.34*(isFlashing?1.45:1));ctx.fillStyle=isFlashing?'#fff':'#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();ctx.strokeStyle=isFlashing?'#fff':'#ffe0bd';ctx.lineWidth=isFlashing?5:2;ctx.stroke();ctx.restore();
-    if(u<1){raf=requestAnimationFrame(frame)}else{raf=null;if(current===2){shot=0;station=station===5?1:station+1}else shot=current+1;flying=false;launchBtn.disabled=false;ui()}
-  }
-  raf=requestAnimationFrame(frame);
-}
-for(let i=1;i<=10;i++){let b=document.createElement('button');b.textContent=i;b.onclick=()=>{if(flying)return;setNo=i;station=1;shot=0;ui()};setsEl.appendChild(b)}
-for(let i=1;i<=5;i++){let b=document.createElement('button');b.textContent=i;b.onclick=()=>{if(flying)return;station=i;shot=0;ui()};stsEl.appendChild(b)}
-launchBtn.addEventListener('click',launch,{passive:true});
-flashBtn.onclick=()=>{flashEnabled=!flashEnabled;flashBtn.textContent='発光 '+(flashEnabled?'ON':'OFF')};
-infoBtn.onclick=()=>{showInfo=!showInfo;infoBtn.textContent='情報 '+(showInfo?'ON':'OFF');if(!showInfo)info.classList.add('hidden')};
-let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,120)});window.addEventListener('orientationchange',()=>setTimeout(resize,250));
-requestAnimationFrame(()=>{resize();ui()});
-if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
+function launch(){if(flying)return;flying=true;launchBtn.disabled=true;const pool=SETS[setNo].slice((station-1)*3,station*3),current=shot,[angle,height]=pool[current],base=(station-1)*3+1,b=ballistics(height);info.textContent=`放出機 ${base+current}　${at(angle)}　高度 ${height.toFixed(2)}m　初速 ${b.speed.toFixed(1)}m/s　発光 ${flashEnabled?'ON':'OFF'}`;if(showInfo)info.classList.remove('hidden');const q=bg(),w=q.w,h=q.h,start=performance.now(),dur=b.flightTime*1000,sx=w/2,sy=q.oy,ar=Math.sign(angle)*Math.pow(Math.abs(angle)/45,.72),ex=w/2+ar*w*.70,flashDistance=30,flashDurationMs=140;let flashStartedAt=null;function frame(now){const u=Math.min(1,(now-start)/dur),range=b.R*u;if(flashStartedAt===null&&range>=flashDistance)flashStartedAt=now;const isFlashing=flashEnabled&&flashStartedAt!==null&&(now-flashStartedAt)<flashDurationMs;bg();const rise=range*b.tanTheta*(1-range/b.R),x=sx+(ex-sx)*u,groundY=sy-u*h*.28,y=groundY-rise*h*.060,sc=Math.max(.22,1-.72*u);ctx.save();ctx.translate(x,y);if(isFlashing){ctx.save();ctx.scale(sc,sc);ctx.shadowColor='#fff';ctx.shadowBlur=28;let halo=ctx.createRadialGradient(0,0,3,0,0,34);halo.addColorStop(0,'rgba(255,255,255,1)');halo.addColorStop(.35,'rgba(255,255,255,.95)');halo.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();ctx.restore()}ctx.scale(sc*(isFlashing?1.45:1),sc*.34*(isFlashing?1.45:1));ctx.fillStyle=isFlashing?'#fff':'#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();ctx.strokeStyle=isFlashing?'#fff':'#ffe0bd';ctx.lineWidth=isFlashing?5:2;ctx.stroke();ctx.restore();if(u<1){raf=requestAnimationFrame(frame)}else{raf=null;if(current===2){shot=0;station=station===5?1:station+1}else shot=current+1;flying=false;launchBtn.disabled=false;updateUI()}}raf=requestAnimationFrame(frame)}
+for(let i=1;i<=10;i++){const o=document.createElement('option');o.value=String(i);o.textContent=`SET ${i}`;setSelect.appendChild(o)}for(let i=1;i<=5;i++){const o=document.createElement('option');o.value=String(i);o.textContent=`射台 ${i}`;stationSelect.appendChild(o)}
+setSelect.onchange=()=>{if(flying)return;setNo=Number(setSelect.value);station=1;shot=0;updateUI()};stationSelect.onchange=()=>{if(flying)return;station=Number(stationSelect.value);shot=0;updateUI()};launchBtn.addEventListener('click',launch,{passive:true});flashBtn.onclick=()=>{flashEnabled=!flashEnabled;flashBtn.textContent='発光 '+(flashEnabled?'ON':'OFF')};infoBtn.onclick=()=>{showInfo=!showInfo;infoBtn.textContent='情報 '+(showInfo?'ON':'OFF');if(!showInfo)info.classList.add('hidden')};gridBtn.onclick=()=>{gridMode=(gridMode+1)%3;gridBtn.textContent=gridMode===0?'GRID OFF':gridMode===1?'GRID 薄':'GRID 濃';draw()};
+let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,120)});window.addEventListener('orientationchange',()=>setTimeout(resize,250));requestAnimationFrame(()=>{resize();updateUI()});if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
 </script>
 </body>
 </html>
