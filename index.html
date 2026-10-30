@@ -15,9 +15,9 @@ button,select,input{font:inherit;color:var(--text);background:var(--panel2);bord
 button{font-weight:700;cursor:pointer}button:hover{border-color:#8ba5b8}button.active,.primary{background:var(--orange);border-color:#ff9a68;color:#151a1f}
 button:disabled{opacity:.45;cursor:not-allowed}
 .toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:10px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:start}
 main{min-width:0}.stage{position:relative;background:#17232d;border:1px solid var(--line);border-radius:13px;overflow:hidden;min-height:390px}
-canvas{display:block;width:100%;height:min(64vh,650px);min-height:390px}
+canvas{display:block;width:100%;height:min(78vh,820px);min-height:520px;cursor:pointer;touch-action:manipulation}
 .overlay{position:absolute;left:12px;top:12px;background:#07111bdc;padding:9px 11px;border:1px solid #ffffff20;border-radius:9px;font-size:13px;line-height:1.6}
 .legend{position:absolute;right:12px;top:12px;background:#07111bdc;padding:8px 10px;border-radius:9px;font-size:11px;color:#d7e2e9}
 .playbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-top:8px}
@@ -35,8 +35,8 @@ aside{display:flex;flex-direction:column;gap:9px}
 .modebar{display:flex;gap:6px}.modebar button{flex:1}
 table{border-collapse:collapse;width:100%;font-size:12px}td,th{padding:7px 5px;border-bottom:1px solid var(--line);text-align:center}th{color:var(--muted);font-weight:600}
 .badge{display:inline-block;border-radius:5px;background:#304657;padding:2px 6px;font-size:10px}
-@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.stage canvas{height:55vh}}
-@media(max-width:560px){.app{padding:7px}.layout{display:flex;flex-direction:column}.stage{width:100%;min-height:330px}.stage canvas{height:48vh;min-height:330px}aside{display:flex;width:100%}.toolbar{width:100%}.toolbar button{flex:1}.playbar button{flex:1}}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.stage canvas{height:68vh;min-height:440px}}
+@media(max-width:560px){.app{padding:7px}.layout{display:flex;flex-direction:column}.stage{width:100%;min-height:400px}.stage canvas{height:62vh;min-height:400px}aside{display:flex;width:100%}.toolbar{width:100%}.toolbar button{flex:1}.playbar button{flex:1}}
 </style>
 </head>
 <body><div class="app">
@@ -44,13 +44,13 @@ table{border-collapse:collapse;width:100%;font-size:12px}td,th{padding:7px 5px;b
 <div class="toolbar"><button id="resetBtn">この射台をリセット</button><button id="allBtn">セット一覧</button></div></header>
 <div class="layout"><main>
 <div class="stage"><canvas id="view"></canvas>
-<div class="overlay" id="hud"></div><div class="legend" id="legend">橙：クレー軌道　白：射台中心線</div></div>
+<div class="overlay" id="hud"></div><div class="legend" id="legend">画面をタップ：次の放出機へ</div></div>
 <div class="playbar">
 <button class="primary" id="playBtn">▶ 再生</button><button id="stepBack">−1秒</button><button id="stepFwd">＋1秒</button>
 <label>速度 <select id="speed"><option value=".25">0.25倍</option><option value=".5">0.5倍</option><option value="1" selected>1倍</option><option value="2">2倍</option></select></label>
 <input id="scrub" type="range" min="0" max="1000" value="0"><span id="timeLabel">0.00秒</span>
 </div>
-<div class="panel" style="margin-top:8px"><div class="modebar"><button id="perspBtn" class="active">射台視点（2D）</button><button id="topBtn">俯瞰視点（2D）</button><button id="pseudoBtn">立体イメージ</button></div><p class="note" id="modeNote">射台から見た予習用の模式図です。実際の視野・遠近・地形を測量した再現図ではありません。</p></div>
+<div class="panel" style="margin-top:8px"><div class="modebar"><button id="perspBtn" class="active">射台視点（2D）</button><button id="topBtn">俯瞰視点（2D）</button><button id="pseudoBtn">立体イメージ</button></div><p class="note" id="modeNote">画面をタップすると次の放出機へ進みます。射台から見た予習用の模式図です。</p></div>
 </main>
 <aside>
 <section class="panel"><h2>セット・射台選択</h2><div class="note" style="margin-bottom:6px">セット番号</div><div class="setgrid" id="sets"></div><div class="note" style="margin:10px 0 6px">射台番号</div><div class="stationgrid" id="stations"></div></section>
@@ -116,9 +116,20 @@ $("summary").innerHTML=SETS[setNo].slice((station-1)*3,station*3).map(([ang,ht],
 $("modeNote").textContent=mode==="top"?"俯瞰模式：放出位置・射台配置・飛翔方向を上から確認する模式図です。":mode==="pseudo"?"立体イメージ：距離の目安を補助線で表示します。測量に基づく3Dモデルではありません。":"射台視点：クレーの左右方向と高さの変化を確認する予習用模式図です。";
 elapsed=0;updateHud();draw();}
 function stop(){playing=false;cancelAnimationFrame(raf);$("playBtn").textContent="▶ 再生";last=0;}
+function nextLauncher(){
+ stop(); elapsed=0;
+ shot++;
+ if(shot>=3){shot=0;station++;}
+ if(station>5){station=1;setNo++;if(setNo>10)setNo=1;}
+ render();
+}
+cv.addEventListener("click",()=>nextLauncher());
+cv.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();nextLauncher();}});
+cv.tabIndex=0;
+
 function tick(t){if(!playing)return;if(!last)last=t;let dt=(t-last)/1000;last=t;elapsed+=dt*Number($("speed").value);const m=model(current()[1]);if(elapsed>=m.T){elapsed=m.T;stop()}draw();if(playing)raf=requestAnimationFrame(tick)}
 function togglePlay(){if(playing){stop();return}const m=model(current()[1]);if(elapsed>=m.T)elapsed=0;playing=true;$("playBtn").textContent="Ⅱ 一時停止";last=0;raf=requestAnimationFrame(tick)}
-$("playBtn").onclick=togglePlay;$("stepBack").onclick=()=>{stop();elapsed=Math.max(0,elapsed-1);draw()};$("stepFwd").onclick=()=>{stop();elapsed=Math.min(model(current()[1]).T,elapsed+1);draw()};
+$("playBtn").onclick=togglePlay;$("nextBtn").onclick=nextLauncher;$("stepBack").onclick=()=>{stop();elapsed=Math.max(0,elapsed-1);draw()};$("stepFwd").onclick=()=>{stop();elapsed=Math.min(model(current()[1]).T,elapsed+1);draw()};
 $("scrub").oninput=e=>{stop();elapsed=Number(e.target.value)/1000*model(current()[1]).T;draw()};
 $("speed").onchange=()=>{if(playing){stop();togglePlay()}};
 $("resetBtn").onclick=()=>{stop();shot=0;render()};
