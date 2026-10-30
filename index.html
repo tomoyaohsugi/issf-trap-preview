@@ -2,139 +2,105 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#101923">
-<title>ISSF Trap Preview V2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0f1720">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trap Preview">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>ISSF Trap Preview</title>
 <style>
-:root{--bg:#101923;--panel:#1b2935;--panel2:#233442;--line:#354b5b;--text:#f4f7fa;--muted:#a9bac7;--orange:#ff7028;--green:#76c893}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-.app{max-width:1450px;margin:auto;padding:12px;min-height:100dvh;display:flex;flex-direction:column;gap:10px}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-h1{font-size:clamp(19px,3vw,27px);margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
-button,select,input{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px}
-button{font-weight:700;cursor:pointer}button:hover{border-color:#8ba5b8}button.active,.primary{background:var(--orange);border-color:#ff9a68;color:#151a1f}
-button:disabled{opacity:.45;cursor:not-allowed}
-.toolbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-items:start}
-main{min-width:0}.stage{position:relative;background:#17232d;border:1px solid var(--line);border-radius:13px;overflow:hidden;min-height:390px}
-canvas{display:block;width:100%;height:min(78vh,820px);min-height:520px;cursor:pointer;touch-action:manipulation}
-.overlay{position:absolute;left:12px;top:12px;background:#07111bdc;padding:9px 11px;border:1px solid #ffffff20;border-radius:9px;font-size:13px;line-height:1.6}
-.legend{position:absolute;right:12px;top:12px;background:#07111bdc;padding:8px 10px;border-radius:9px;font-size:11px;color:#d7e2e9}
-.playbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-top:8px}
-.playbar input[type=range]{flex:1;min-width:120px;padding:0;accent-color:var(--orange)}
-aside{display:flex;flex-direction:column;gap:9px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px}
-.panel h2{font-size:14px;margin:0 0 9px;color:#dce7ee}
-.setgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.stationgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
-.data{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.metric{background:#101b24;border-radius:8px;padding:8px;text-align:center}.metric b{display:block;font-size:18px}.metric small{font-size:10px;color:var(--muted)}
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.shot{padding:8px 4px;text-align:center;font-size:12px;line-height:1.5}
-.shot small{display:block;color:var(--muted);font-size:10px}
-.note{font-size:11px;color:var(--muted);line-height:1.55}
-.modebar{display:flex;gap:6px}.modebar button{flex:1}
-table{border-collapse:collapse;width:100%;font-size:12px}td,th{padding:7px 5px;border-bottom:1px solid var(--line);text-align:center}th{color:var(--muted);font-weight:600}
-.badge{display:inline-block;border-radius:5px;background:#304657;padding:2px 6px;font-size:10px}
-@media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.stage canvas{height:68vh;min-height:440px}}
-@media(max-width:560px){.app{padding:7px}.layout{display:flex;flex-direction:column}.stage{width:100%;min-height:400px}.stage canvas{height:62vh;min-height:400px}aside{display:flex;width:100%}.toolbar{width:100%}.toolbar button{flex:1}.playbar button{flex:1}}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0f1720;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{box-sizing:border-box;width:100vw;height:100dvh;padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(4px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));display:flex;flex-direction:column}
+.head{height:34px;display:flex;justify-content:space-between;align-items:center}.sub{font-size:10px;color:#aab7c4}.headBtns{display:flex;gap:4px}
+button{background:#24323c;color:#fff;border:1px solid #394955;border-radius:8px;padding:6px 7px;font-weight:800;touch-action:manipulation}.active{background:#ff681c;border-color:#ff984f}
+.stage{position:relative;flex:1;min-height:0;border-radius:12px;overflow:hidden;border:1px solid #33444f}.stage canvas{width:100%;height:100%;display:block}
+.info{position:absolute;left:8px;bottom:8px;background:#051014cc;padding:6px 8px;border-radius:8px;font-size:11px;pointer-events:none}.hidden{display:none}
+.launch{display:flex;justify-content:center;margin:4px 0}.launchBtn{width:min(58%,420px);background:#ff681c;border-color:#ff984f;font-size:16px;padding:7px}.launchBtn:disabled{opacity:.55}
+.controls{display:grid;grid-template-columns:1.05fr .75fr 1.3fr;gap:4px}.panel{background:#18242d;border:1px solid #263740;border-radius:9px;padding:5px}.row{display:flex;justify-content:space-between;font-size:11px;color:#c7d2da}
+.g10{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:4px}.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:4px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:4px}.g10 button,.g5 button{padding:4px}.card{background:#24323c;border:1px solid #394955;border-radius:7px;padding:4px;text-align:center;font-size:10px;line-height:1.35}.next{background:#101b22;border-radius:7px;padding:5px;margin-top:4px;text-align:center;font-size:11px;font-weight:800}
+.rotate{display:none}@media(orientation:portrait){.rotate{display:flex;position:fixed;inset:0;z-index:999;background:#0f1720;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:22px;font-weight:800}.app{visibility:hidden}}
 </style>
 </head>
-<body><div class="app">
-<header><div><h1>ISSF Trap Preview <span class="badge">V2</span></h1><div class="sub">2026 セット表 Ver.3 ・ 試合前予習モード</div></div>
-<div class="toolbar"><button id="resetBtn">この射台をリセット</button><button id="allBtn">セット一覧</button></div></header>
-<div class="layout"><main>
-<div class="stage"><canvas id="view"></canvas>
-<div class="overlay" id="hud"></div><div class="legend" id="legend">画面をタップ：次の放出機へ</div></div>
-<div class="playbar">
-<button class="primary" id="playBtn">▶ 再生</button><button id="stepBack">−1秒</button><button id="stepFwd">＋1秒</button>
-<label>速度 <select id="speed"><option value=".25">0.25倍</option><option value=".5">0.5倍</option><option value="1" selected>1倍</option><option value="2">2倍</option></select></label>
-<input id="scrub" type="range" min="0" max="1000" value="0"><span id="timeLabel">0.00秒</span>
-</div>
-<div class="panel" style="margin-top:8px"><div class="modebar"><button id="perspBtn" class="active">射台視点（2D）</button><button id="topBtn">俯瞰視点（2D）</button><button id="pseudoBtn">立体イメージ</button></div><p class="note" id="modeNote">画面をタップすると次の放出機へ進みます。射台から見た予習用の模式図です。</p></div>
-</main>
-<aside>
-<section class="panel"><h2>セット・射台選択</h2><div class="note" style="margin-bottom:6px">セット番号</div><div class="setgrid" id="sets"></div><div class="note" style="margin:10px 0 6px">射台番号</div><div class="stationgrid" id="stations"></div></section>
-<section class="panel"><h2>現在のクレー</h2><div class="data">
-<div class="metric"><small>放出機</small><b id="machine">1</b></div><div class="metric"><small>方向</small><b id="angle">右30°</b></div><div class="metric"><small>高さ</small><b id="height">2.50m</b></div>
-</div><div class="shots" id="shots" style="margin-top:9px"></div><div class="note" style="margin-top:8px">カードを選ぶと、その放出機の軌道を確認できます。</div></section>
-<section class="panel"><h2>射台別・3方向一覧</h2><table><thead><tr><th>放出機</th><th>方向</th><th>高さ</th></tr></thead><tbody id="summary"></tbody></table></section>
-<section class="panel"><h2>このシミュレーターについて</h2><p class="note">角度・高さは現行V1に収録されたセットデータを引き継いでいます。軌道は「76m到達・10m地点の上昇高」を使った簡易放物線モデルです。風、空気抵抗、実機の放出条件、射場ごとの測量値は未反映です。公式競技条件の保証や実射の代替ではなく、セットの方向と高さを予習するための表示です。</p></section>
-</aside></div>
+<body>
+<div class="rotate">iPhoneを横向きにしてください</div>
+<div class="app">
+  <div class="head"><div><b>ISSF Trap Preview</b><div class="sub">2026セット表 Ver.3 ・ Offline PWA</div></div><div class="headBtns"><button id="flashBtn">発光 ON</button><button id="infoBtn">情報 ON</button></div></div>
+  <div class="stage"><canvas id="cv"></canvas><div id="info" class="info hidden"></div></div>
+  <div class="launch"><button id="launchBtn" class="launchBtn">TAP / 次へ</button></div>
+  <div class="controls">
+    <div class="panel"><div class="row"><b>セット</b><span id="setL"></span></div><div id="sets" class="g10"></div></div>
+    <div class="panel"><div class="row"><b>射台</b><span id="stL"></span></div><div id="sts" class="g5"></div></div>
+    <div class="panel"><div class="row"><b>自動進行</b><span>1→5</span></div><div id="cards" class="g3"></div><div id="next" class="next"></div></div>
+  </div>
 </div>
 <script>
-const SETS={"1":[[30,2.5],[10,1.5],[-30,3],[40,1.7],[-5,2],[-45,2],[45,2],[-10,3],[-45,2.8],[45,2.3],[10,1.8],[-40,1.6],[30,2],[-5,1.5],[-35,3]],"2":[[45,2.3],[10,1.5],[-20,2.8],[45,1.5],[0,2],[-45,2],[25,2],[0,3],[-45,1.5],[35,2.2],[10,2.4],[-40,1.5],[30,2.8],[-10,1.5],[-45,2]],"3":[[45,2.5],[0,1.6],[-20,2],[35,2.9],[-5,1.8],[-45,3],[35,2.5],[-10,3],[-40,2.2],[40,2],[-5,2.5],[-30,3],[30,2],[0,1.8],[-30,3]],"4":[[30,1.5],[0,3],[-20,2.2],[30,2],[-10,1.5],[-45,3],[25,3],[-5,1.5],[-15,1.8],[40,2.8],[-5,1.5],[-35,2.2],[15,3],[10,3],[-40,1.7]],"5":[[20,1.8],[0,3],[-25,2.6],[35,3],[0,1.6],[-35,3],[35,2.3],[-5,1.8],[-35,1.6],[40,2.3],[0,2.3],[-40,3],[25,1.8],[-5,2.5],[-45,2]],"6":[[45,1.9],[0,2.8],[-30,3],[40,1.5],[0,1.6],[-40,2],[35,2],[0,3],[-45,2],[45,2.3],[5,2],[-40,3],[25,2.4],[0,1.75],[-35,1.8]],"7":[[40,3],[0,1.5],[-35,1.5],[45,2],[5,2.2],[-45,3],[40,1.5],[5,1.9],[-25,2.6],[20,1.8],[0,3],[-30,2.2],[35,2.5],[0,3],[-40,3]],"8":[[40,3],[-5,3],[-15,2.2],[30,2],[-5,2],[-35,1.8],[40,2],[5,1.5],[-35,2.5],[45,1.5],[5,2],[-25,3],[15,1.5],[0,1.5],[-45,1.6]],"9":[[30,1.6],[0,1.5],[-15,2],[20,2.4],[-5,3],[-35,2],[45,2],[-5,1.5],[-35,1.5],[45,1.6],[0,2.8],[-45,2],[25,3],[5,1.5],[-20,3]],"10":[[45,2.25],[0,1.75],[-25,2],[35,1.8],[0,3],[-40,2.25],[40,3],[5,1.8],[-45,3],[45,2],[-10,2.5],[-35,1.5],[15,1.8],[10,2],[-45,1.5]]};
-let setNo=1,station=1,shot=0,mode="perspective",playing=false,elapsed=0,last=0,raf=0;
-const cv=document.getElementById('view'),ctx=cv.getContext('2d');
-const $=id=>document.getElementById(id);
-const current=()=>SETS[setNo][(station-1)*3+shot];
-const label=a=>a>0?`右${a}°`:a<0?`左${Math.abs(a)}°`:"直進";
-function model(h){const g=9.80665,R=76,x10=10,tan=h/(x10*(1-x10/R)),theta=Math.atan(tan),v=Math.sqrt(g*R/Math.sin(2*theta)),T=Math.sqrt(2*R*tan/g);return {R,tan,theta,v,T};}
-function resize(){const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);draw();}
-function roundRect(x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.stroke()}}
-function drawPerspective(w,h){
- const horizon=h*.43;let sky=ctx.createLinearGradient(0,0,0,horizon);sky.addColorStop(0,"#70b8e8");sky.addColorStop(1,"#e2f1f7");ctx.fillStyle=sky;ctx.fillRect(0,0,w,horizon);
- let land=ctx.createLinearGradient(0,horizon,0,h);land.addColorStop(0,"#8ba65c");land.addColorStop(1,"#345b36");ctx.fillStyle=land;ctx.fillRect(0,horizon,w,h-horizon);
- ctx.strokeStyle="#ffffff65";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(w/2,horizon);ctx.lineTo(w/2,h);ctx.stroke();
- const hx=w*.28,hy=h*.70,hw=w*.44,hh=h*.11;roundRect(hx,hy,hw,hh,5,"#465660","#a6b6bf");
- ctx.fillStyle="#11191f";ctx.beginPath();ctx.moveTo(w*.37,hy);ctx.lineTo(w*.63,hy);ctx.lineTo(w*.60,hy-20);ctx.lineTo(w*.40,hy-20);ctx.closePath();ctx.fill();
- const s=SETS[setNo][(station-1)*3+shot],m=model(s[1]),u=elapsed/m.T,range=m.R*u;
- const pts=[];for(let i=0;i<=100;i++){let f=i/100,x=m.R*f,z=x*Math.tan(s[0]*Math.PI/180),y=x*m.tan*(1-x/m.R);let px=w/2+z*w*.0105,py=hy-28-f*h*.30-y*h*.075;pts.push([px,py]);}
- ctx.strokeStyle="#ff9a55";ctx.lineWidth=3;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();
- let p=pts[Math.min(100,Math.floor(u*100))];ctx.fillStyle="#ff641f";ctx.beginPath();ctx.ellipse(p[0],p[1],10,5,-.2,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#fff2df";ctx.lineWidth=2;ctx.stroke();
- for(let d of [10,30,50,76]){let f=d/76,p=pts[Math.round(f*100)];ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(p[0],p[1],3,0,Math.PI*2);ctx.fill();}
+const SETS={
+1:[[30,2.5],[10,1.5],[-30,3],[40,1.7],[-5,2],[-45,2],[45,2],[-10,3],[-45,2.8],[45,2.3],[10,1.8],[-40,1.6],[30,2],[-5,1.5],[-35,3]],
+2:[[45,2.3],[10,1.5],[-20,2.8],[45,1.5],[0,2],[-45,2],[25,2],[0,3],[-45,1.5],[35,2.2],[10,2.4],[-40,1.5],[30,2.8],[-10,1.5],[-45,2]],
+3:[[45,2.5],[0,1.6],[-20,2],[35,2.9],[-5,1.8],[-45,3],[35,2.5],[-10,3],[-40,2.2],[40,2],[-5,2.5],[-30,3],[30,2],[0,1.8],[-30,3]],
+4:[[30,1.5],[0,3],[-20,2.2],[30,2],[-10,1.5],[-45,3],[25,3],[-5,1.5],[-15,1.8],[40,2.8],[-5,1.5],[-35,2.2],[15,3],[10,3],[-40,1.7]],
+5:[[20,1.8],[0,3],[-25,2.6],[35,3],[0,1.6],[-35,3],[35,2.3],[-5,1.8],[-35,1.6],[40,2.3],[0,2.3],[-40,3],[25,1.8],[-5,2.5],[-45,2]],
+6:[[45,1.9],[0,2.8],[-30,3],[40,1.5],[0,1.6],[-40,2],[35,2],[0,3],[-45,2],[45,2.3],[5,2],[-40,3],[25,2.4],[0,1.75],[-35,1.8]],
+7:[[40,3],[0,1.5],[-35,1.5],[45,2],[5,2.2],[-45,3],[40,1.5],[5,1.9],[-25,2.6],[20,1.8],[0,3],[-30,2.2],[35,2.5],[0,3],[-40,3]],
+8:[[40,3],[-5,3],[-15,2.2],[30,2],[-5,2],[-35,1.8],[40,2],[5,1.5],[-35,2.5],[45,1.5],[5,2],[-25,3],[15,1.5],[0,1.5],[-45,1.6]],
+9:[[30,1.6],[0,1.5],[-15,2],[20,2.4],[-5,3],[-35,2],[45,2],[-5,1.5],[-35,1.5],[45,1.6],[0,2.8],[-45,2],[25,3],[5,1.5],[-20,3]],
+10:[[45,2.25],[0,1.75],[-25,2],[35,1.8],[0,3],[-40,2.25],[40,3],[5,1.8],[-45,3],[45,2],[-10,2.5],[-35,1.5],[15,1.8],[10,2],[-45,1.5]]};
+let setNo=1,station=1,shot=0,flying=false,showInfo=true,flashEnabled=true,raf=null,dpr=1;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const setL=document.getElementById('setL'),stL=document.getElementById('stL'),setsEl=document.getElementById('sets'),stsEl=document.getElementById('sts'),cards=document.getElementById('cards'),next=document.getElementById('next'),info=document.getElementById('info'),launchBtn=document.getElementById('launchBtn'),flashBtn=document.getElementById('flashBtn'),infoBtn=document.getElementById('infoBtn');
+const at=a=>a>0?`右${a}°`:a<0?`左${Math.abs(a)}°`:'直進';
+function resize(){
+  cancelAnimationFrame(raf); raf=null; flying=false; launchBtn.disabled=false;
+  const r=cv.getBoundingClientRect(); dpr=window.devicePixelRatio||1;
+  cv.width=Math.max(1,Math.round(r.width*dpr)); cv.height=Math.max(1,Math.round(r.height*dpr));
+  ctx.setTransform(dpr,0,0,dpr,0,0); draw();
 }
-function drawTop(w,h){
- ctx.fillStyle="#b8c99c";ctx.fillRect(0,0,w,h);
- // shooting direction points toward the top of the diagram
- const cx=w/2,baseY=h*.78,scale=Math.min(w/150,h/115);
- ctx.fillStyle="#58656d";ctx.fillRect(cx-58*scale,baseY-15*scale,116*scale,30*scale);
- ctx.fillStyle="#17232d";ctx.fillRect(cx-35*scale,baseY-10*scale,70*scale,20*scale);
- ctx.fillStyle="#fff";ctx.font="bold 12px system-ui";ctx.textAlign="center";ctx.fillText("トラップハウス",cx,baseY+4*scale);
- const s=SETS[setNo][(station-1)*3+shot],ang=s[0]*Math.PI/180;
- const len=Math.min(w*.42,h*.60),ex=cx+Math.sin(ang)*len,ey=baseY-Math.cos(ang)*len;
- ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(cx,baseY-15*scale);ctx.lineTo(cx,baseY-len*.18);ctx.stroke();ctx.setLineDash([]);
- ctx.strokeStyle="#f05d1b";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(cx,baseY-15*scale);ctx.lineTo(ex,ey);ctx.stroke();
- for(let i=1;i<=5;i++){let x=cx+(i-3)*36*scale,y=baseY+55*scale;roundRect(x-12*scale,y-8*scale,24*scale,16*scale,4,i===station?"#ff7028":"#334b3b","#fff");ctx.fillStyle="#fff";ctx.font="bold 11px system-ui";ctx.fillText(String(i),x,y+4*scale);}
- const p=elapsed/model(s[1]).T,px=cx+(ex-cx)*p,py=(baseY-15*scale)+(ey-(baseY-15*scale))*p;
- ctx.fillStyle="#ff5f18";ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
- ctx.fillStyle="#20352a";ctx.font="12px system-ui";ctx.fillText("飛翔方向（模式図）",cx,20);
+function clearCanvas(){
+  ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height); ctx.restore();
+  ctx.setTransform(dpr,0,0,dpr,0,0);
 }
-function drawPseudo(w,h){
- drawPerspective(w,h);
- // pseudo depth grid over the landscape, to help understand distance, not true 3D
- ctx.strokeStyle="#ffffff55";ctx.lineWidth=1;
- for(let i=1;i<=4;i++){let y=h*.45+i*h*.105;ctx.beginPath();ctx.moveTo(w*.08+i*w*.025,y);ctx.lineTo(w*.92-i*w*.025,y);ctx.stroke();}
- ctx.fillStyle="#fff";ctx.font="11px system-ui";ctx.textAlign="left";ctx.fillText("距離感の立体イメージ",12,h-15);
+function bg(){
+  clearCanvas();
+  const w=cv.clientWidth,h=cv.clientHeight,hz=h*.46;
+  let sky=ctx.createLinearGradient(0,0,0,hz); sky.addColorStop(0,'#71bae8'); sky.addColorStop(1,'#dceff8'); ctx.fillStyle=sky; ctx.fillRect(0,0,w,hz);
+  let g=ctx.createLinearGradient(0,hz,0,h); g.addColorStop(0,'#789e50'); g.addColorStop(1,'#345a2c'); ctx.fillStyle=g; ctx.fillRect(0,hz,w,h-hz);
+  const eyeHeight=1.77,viewerDistance=15,openingDepth=2,depression=Math.atan2(eyeHeight,viewerDistance),farScale=viewerDistance/(viewerDistance+openingDepth),houseW=w*.48,houseH=Math.max(24,h*.075),hx=(w-houseW)/2,hy=h*.70,nearW=houseW*.76,farW=nearW*farScale,nearX=(w-nearW)/2,farX=(w-farW)/2,depthPx=Math.max(12,Math.min(28,h*(openingDepth/viewerDistance)*(1.15+Math.sin(depression)*2.5))),nearY=hy,farY=hy-depthPx;
+  ctx.fillStyle='#4b5961'; ctx.fillRect(hx,hy,houseW,houseH); ctx.strokeStyle='#26343b'; ctx.lineWidth=2; ctx.strokeRect(hx,hy,houseW,houseH);
+  ctx.fillStyle='#11181c'; ctx.beginPath(); ctx.moveTo(nearX,nearY); ctx.lineTo(nearX+nearW,nearY); ctx.lineTo(farX+farW,farY); ctx.lineTo(farX,farY); ctx.closePath(); ctx.fill(); ctx.strokeStyle='#91a1aa'; ctx.lineWidth=1.5; ctx.stroke();
+  return {w,h,oy:(nearY+farY)/2};
 }
-function draw(){const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;if(mode==="top")drawTop(w,h);else if(mode==="pseudo")drawPseudo(w,h);else drawPerspective(w,h);updateHud();}
-function updateHud(){const [a,ht]=current(),m=model(ht);$("hud").innerHTML=`<b>${setNo}番セット / ${station}番射台</b><br>放出機 ${(station-1)*3+shot+1}　${label(a)}<br>高さ ${ht.toFixed(2)}m　経過 ${elapsed.toFixed(2)} / ${m.T.toFixed(2)}秒`;$("timeLabel").textContent=elapsed.toFixed(2)+"秒";$("scrub").value=Math.round(elapsed/m.T*1000);}
-function buildButtons(){ $("sets").innerHTML="";for(let i=1;i<=10;i++){let b=document.createElement("button");b.textContent=i;b.className=i===setNo?"active":"";b.onclick=()=>{setNo=i;station=1;shot=0;stop();render()};$("sets").append(b)}
-$("stations").innerHTML="";for(let i=1;i<=5;i++){let b=document.createElement("button");b.textContent=i;b.className=i===station?"active":"";b.onclick=()=>{station=i;shot=0;stop();render()};$("stations").append(b)}}
-function render(){buildButtons();const [a,h]=current();$("machine").textContent=(station-1)*3+shot+1;$("angle").textContent=label(a);$("height").textContent=h.toFixed(2)+"m";
-$("shots").innerHTML="";SETS[setNo].slice((station-1)*3,station*3).forEach(([ang,ht],i)=>{let b=document.createElement("button");b.className="shot"+(i===shot?" active":"");b.innerHTML=`放出機 ${(station-1)*3+i+1}<small>${label(ang)} / ${ht.toFixed(2)}m</small>`;b.onclick=()=>{shot=i;stop();render()};$("shots").append(b)});
-$("summary").innerHTML=SETS[setNo].slice((station-1)*3,station*3).map(([ang,ht],i)=>`<tr><td>${(station-1)*3+i+1}</td><td>${label(ang)}</td><td>${ht.toFixed(2)}m</td></tr>`).join("");
-$("modeNote").textContent=mode==="top"?"俯瞰模式：放出位置・射台配置・飛翔方向を上から確認する模式図です。":mode==="pseudo"?"立体イメージ：距離の目安を補助線で表示します。測量に基づく3Dモデルではありません。":"射台視点：クレーの左右方向と高さの変化を確認する予習用模式図です。";
-elapsed=0;updateHud();draw();}
-function stop(){playing=false;cancelAnimationFrame(raf);$("playBtn").textContent="▶ 再生";last=0;}
-function nextLauncher(){
- stop(); elapsed=0;
- shot++;
- if(shot>=3){shot=0;station++;}
- if(station>5){station=1;setNo++;if(setNo>10)setNo=1;}
- render();
+function draw(){ if(flying)return; const q=bg(),base=(station-1)*3+1; ctx.fillStyle='#0007';ctx.fillRect(0,0,q.w,34);ctx.fillStyle='white';ctx.font='600 12px system-ui';ctx.textAlign='center';ctx.fillText(`${setNo}番セット・${station}番射台・次 放出機${base+shot}`,q.w/2,22); }
+function ui(){
+  setL.textContent=setNo+'番';stL.textContent=station+'番';document.querySelectorAll('#sets button').forEach((b,i)=>b.className=i+1===setNo?'active':'');document.querySelectorAll('#sts button').forEach((b,i)=>b.className=i+1===station?'active':'');
+  const pool=SETS[setNo].slice((station-1)*3,station*3),base=(station-1)*3+1;cards.innerHTML='';pool.forEach(([a,h],i)=>{let d=document.createElement('div');d.className='card '+(i===shot?'active':'');d.innerHTML=`<b>${base+i}</b><br>${at(a)}<br>${h.toFixed(2)}m`;cards.appendChild(d)});const[a,h]=pool[shot];next.textContent=`次 ${base+shot}・${at(a)}・${h.toFixed(2)}m`;draw();
 }
-cv.addEventListener("click",()=>nextLauncher());
-cv.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();nextLauncher();}});
-cv.tabIndex=0;
-
-function tick(t){if(!playing)return;if(!last)last=t;let dt=(t-last)/1000;last=t;elapsed+=dt*Number($("speed").value);const m=model(current()[1]);if(elapsed>=m.T){elapsed=m.T;stop()}draw();if(playing)raf=requestAnimationFrame(tick)}
-function togglePlay(){if(playing){stop();return}const m=model(current()[1]);if(elapsed>=m.T)elapsed=0;playing=true;$("playBtn").textContent="Ⅱ 一時停止";last=0;raf=requestAnimationFrame(tick)}
-$("playBtn").onclick=togglePlay;$("nextBtn").onclick=nextLauncher;$("stepBack").onclick=()=>{stop();elapsed=Math.max(0,elapsed-1);draw()};$("stepFwd").onclick=()=>{stop();elapsed=Math.min(model(current()[1]).T,elapsed+1);draw()};
-$("scrub").oninput=e=>{stop();elapsed=Number(e.target.value)/1000*model(current()[1]).T;draw()};
-$("speed").onchange=()=>{if(playing){stop();togglePlay()}};
-$("resetBtn").onclick=()=>{stop();shot=0;render()};
-$("allBtn").onclick=()=>{stop();let rows=[];for(let s=1;s<=10;s++){rows.push(`セット${s}`);for(let st=1;st<=5;st++){let x=SETS[s].slice((st-1)*3,st*3).map(([a,h],i)=>`${(st-1)*3+i+1}:${label(a)} ${h.toFixed(2)}m`).join(" / ");rows.push(`  射台${st} ${x}`)}}alert(rows.join("\\n"))};
-function setMode(m){stop();mode=m;["perspBtn","topBtn","pseudoBtn"].forEach((id,i)=>$(id).classList.toggle("active",["perspective","top","pseudo"][i]===m));draw()}
-$("perspBtn").onclick=()=>setMode("perspective");$("topBtn").onclick=()=>setMode("top");$("pseudoBtn").onclick=()=>setMode("pseudo");
-window.addEventListener("resize",resize);render();resize();
-</script></body></html>
+function ballistics(height){const g=9.80665,R=76,x10=10,tanTheta=height/(x10*(1-x10/R)),theta=Math.atan(tanTheta),speed=Math.sqrt(g*R/Math.sin(2*theta)),flightTime=Math.sqrt(2*R*tanTheta/g);return{R,tanTheta,speed,flightTime}}
+function launch(){
+  if(flying)return; flying=true; launchBtn.disabled=true;
+  const pool=SETS[setNo].slice((station-1)*3,station*3),current=shot,[angle,height]=pool[current],base=(station-1)*3+1,b=ballistics(height);
+  info.textContent=`放出機 ${base+current}　${at(angle)}　高度 ${height.toFixed(2)}m　初速 ${b.speed.toFixed(1)}m/s　発光 ${flashEnabled?'ON':'OFF'}`; if(showInfo)info.classList.remove('hidden');
+  const q=bg(),w=q.w,h=q.h,start=performance.now(),dur=b.flightTime*1000,sx=w/2,sy=q.oy,ar=Math.sign(angle)*Math.pow(Math.abs(angle)/45,.72),ex=w/2+ar*w*.70,flashDistance=30,flashDurationMs=140;let flashStartedAt=null;
+  function frame(now){
+    const u=Math.min(1,(now-start)/dur),range=b.R*u;if(flashStartedAt===null&&range>=flashDistance)flashStartedAt=now;const isFlashing=flashEnabled&&flashStartedAt!==null&&(now-flashStartedAt)<flashDurationMs;
+    bg();
+    const rise=range*b.tanTheta*(1-range/b.R),x=sx+(ex-sx)*u,groundY=sy-u*h*.28,y=groundY-rise*h*.060,sc=Math.max(.22,1-.72*u);
+    ctx.save();ctx.translate(x,y);
+    if(isFlashing){ctx.save();ctx.scale(sc,sc);ctx.shadowColor='#fff';ctx.shadowBlur=28;let halo=ctx.createRadialGradient(0,0,3,0,0,34);halo.addColorStop(0,'rgba(255,255,255,1)');halo.addColorStop(.35,'rgba(255,255,255,.95)');halo.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=halo;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();ctx.restore()}
+    ctx.scale(sc*(isFlashing?1.45:1),sc*.34*(isFlashing?1.45:1));ctx.fillStyle=isFlashing?'#fff':'#ff5b18';ctx.beginPath();ctx.arc(0,0,14,0,Math.PI*2);ctx.fill();ctx.strokeStyle=isFlashing?'#fff':'#ffe0bd';ctx.lineWidth=isFlashing?5:2;ctx.stroke();ctx.restore();
+    if(u<1){raf=requestAnimationFrame(frame)}else{raf=null;if(current===2){shot=0;station=station===5?1:station+1}else shot=current+1;flying=false;launchBtn.disabled=false;ui()}
+  }
+  raf=requestAnimationFrame(frame);
+}
+for(let i=1;i<=10;i++){let b=document.createElement('button');b.textContent=i;b.onclick=()=>{if(flying)return;setNo=i;station=1;shot=0;ui()};setsEl.appendChild(b)}
+for(let i=1;i<=5;i++){let b=document.createElement('button');b.textContent=i;b.onclick=()=>{if(flying)return;station=i;shot=0;ui()};stsEl.appendChild(b)}
+launchBtn.addEventListener('click',launch,{passive:true});
+flashBtn.onclick=()=>{flashEnabled=!flashEnabled;flashBtn.textContent='発光 '+(flashEnabled?'ON':'OFF')};
+infoBtn.onclick=()=>{showInfo=!showInfo;infoBtn.textContent='情報 '+(showInfo?'ON':'OFF');if(!showInfo)info.classList.add('hidden')};
+let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,120)});window.addEventListener('orientationchange',()=>setTimeout(resize,250));
+requestAnimationFrame(()=>{resize();ui()});
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
+</script>
+</body>
+</html>
