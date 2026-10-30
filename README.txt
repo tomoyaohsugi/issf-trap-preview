@@ -1,0 +1,3 @@
+ISSF Trap Preview Offline PWA
+GitHub Pages用ファイルです。全ファイルをリポジトリ直下へアップロードしてください。
+初回はオンラインでSafariから開き、ホーム画面へ追加してください。その後オフライン起動できます。
